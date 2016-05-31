@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Cloth")
+@Table(name = "cloth")
 public class Cloth {
 
     @Id
@@ -18,6 +18,7 @@ public class Cloth {
     private String title;
 
     @Column(name = "available_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date availableDate;
 
     public Cloth() {

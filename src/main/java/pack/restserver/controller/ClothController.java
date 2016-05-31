@@ -1,29 +1,36 @@
 package pack.restserver.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import pack.restserver.entity.Cloth;
+import pack.restserver.service.ClothService;
 
-import java.util.Date;
+import java.util.List;
 
 @RestController
-@RequestMapping("/return")
 public class ClothController {
 
-    @RequestMapping(value = "/getParameter", method = RequestMethod.GET)
+    @Autowired
+    private ClothService service;
+
+    @RequestMapping(value = "/clothes", method = RequestMethod.GET)
     @ResponseBody
-    public Cloth getParameter() {
-        return clothReturn();
+    public List<Cloth> getAllClothes() {
+        return service.getAll();
     }
-
-    private Cloth clothReturn() {
-        Cloth cloth = new Cloth();
-        cloth.setId(1);
-        cloth.setAvailableDate(new Date());
-        cloth.setTitle("FirstCloth");
-        return cloth;
+    @RequestMapping(value = "/clothes/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Cloth getCloth(@PathVariable long id) {
+        return service.getByID(id);
     }
-
+    @RequestMapping(value = "/clothes", method = RequestMethod.POST)
+    @ResponseBody
+    public Cloth addCloth(@RequestBody Cloth cloth) {
+        return service.add(cloth);
+    }
+    @RequestMapping(value = "/clothes/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteCloth(@PathVariable long id) {
+        service.delete(id);
+    }
 }
